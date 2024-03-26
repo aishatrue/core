@@ -15,20 +15,40 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
+    //@Bean memberService -> new MemoryMemberRepository()
+    //@Bean orderService -> new MemoryMemberRepository() . 싱글톤이 깨지는거 아닌가..?
+
+    //예상
+    //call AppConfig.memberService
+    //call AppConfig.memberRepository
+    //call AppConfig.memberRepository
+    //call AppConfig.orderService
+    //call AppConfig.memberRepository
+
+    //진짜
+    //call AppConfig.memberService
+    //call AppConfig.memberRepository
+    //call AppConfig.orderService
+
+
     @Bean
     public MemberService memberService(){
-        return new MemberServiceImpl(MemberRepository());
+        System.out.println("call AppConfig.memberService");
+        return new MemberServiceImpl(memberRepository());
 
     }
 
     //db를 바꿔야 하면 여기만 바꾸면 됨. 위 service에 있는건 그대로 유지.
     @Bean
-    public MemberRepository MemberRepository() {
+    public MemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
     @Bean
     public OrderService orderService(){
-        return new OrderServiceImpl(MemberRepository(),discountPolicy());
+        System.out.println("call AppConfig.orderService");
+
+        return new OrderServiceImpl(memberRepository(),discountPolicy());
     }
     @Bean
     public DiscountPolicy discountPolicy() {
