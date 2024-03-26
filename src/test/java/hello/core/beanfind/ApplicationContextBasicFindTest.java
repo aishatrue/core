@@ -38,10 +38,13 @@ public class ApplicationContextBasicFindTest {
     @DisplayName("빈 이름으로 조회x")
     void findBeanByName(){
         MemberService memberService = ac.getBean("xxxx", MemberService.class);
-        //오른쪽 로직을 수행하면 왼쪽 예외가 터져야함.
+        //오른쪽 로직을 수행하면 왼쪽 예외가 터져야함. 주어진 람다표현식이 예외를 throw하는지 확인.
         assertThrows(NoSuchBeanDefinitionException.class,()->
                 ac.getBean("xxxx", MemberService.class));
 
+
+
     }
+
 
 }
