@@ -18,9 +18,5 @@ import org.springframework.context.annotation.FilterType;
 public class AutoAppConfig {
 
 
-    //자동 등록될때 맨 앞글자 소문자로 바뀌니까.
-    @Bean(name="memoryMemberRepository")
-    MemberRepository memberRepository(){
-        return new MemoryMemberRepository();
-    }
+
 }
